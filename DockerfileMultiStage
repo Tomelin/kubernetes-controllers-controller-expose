@@ -1,0 +1,27 @@
+FROM docker.io/library/golang:1.16-buster AS build
+
+WORKDIR /app
+ENV GOOS=linux
+ENV GOARCH=amd64
+ENV GO111MODULE=on
+ENV CGO_ENABLED=0
+
+COPY go.mod ./
+COPY go.sum ./
+RUN go mod download
+
+COPY main.go .
+COPY controller.go .
+
+RUN go build -o ./expose /app/expose
+
+#
+FROM docker.io/library/alpine:stable
+RUN apk --no-cache add ca-certificates
+WORKDIR /app
+# REMEMBER BUILDING THE GOLANG PACKAGE WITH CGO_ENABLED=0 and GOARCH=arm64  PARAMETERS
+COPY --from=build /app/expose /app/expose
+
+ENTRYPOINT [ "/app/expose" ]
+
+# CGO_ENABLED=0 GOARCH=arm64 GOOS=linux go build -o expose . ; podman build --platform=linux/arm64 -t docker.io/tomelin/kubernetes-controller-expose:0.1.7 . ; podman push docker.io/tomelin/kubernetes-controller-expose:0.1.7

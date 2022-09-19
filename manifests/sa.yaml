@@ -1,0 +1,8 @@
+---
+#File generate by this command:  kubectl create serviceaccount -n expose expose-sa --dry-run=client -o yaml > manifests/sa.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  creationTimestamp: null
+  name: expose-sa
+  namespace: expose

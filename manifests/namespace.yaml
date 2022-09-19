@@ -1,0 +1,8 @@
+---
+#File generate by this command:  kubectl create ns expose --dry-run=client -oyaml > manifests/namespace.yaml  
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: expose
+spec: {}
+status: {}

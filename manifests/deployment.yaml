@@ -1,0 +1,25 @@
+---
+#File generate by this command:  kubectl create deployment expose -n expose --image docker.io/tomelin/kubernetes-controller-expose:0.1.0 --dry-run=client -oyaml > manifests/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: expose
+  name: expose
+  namespace: expose
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: expose
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: expose
+    spec:
+      containers:
+      - image: docker.io/tomelin/kubernetes-controller-expose:0.1.8
+        name: expose
+        resources: {}
+      serviceAccountName: expose-sa
